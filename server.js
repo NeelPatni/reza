@@ -41,7 +41,7 @@ try {
 
 try {
   console.log("5. Loading UserRoutes");
-  const userRoutes = require("./routes/UserRoutes");
+  const userRoutes = require("./routes/userRoutes");
   console.log("6. UserRoutes Loaded");
   app.use("/api/users", userRoutes);
 } catch (err) {
