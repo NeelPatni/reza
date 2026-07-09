@@ -36,16 +36,14 @@ const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
-
-// const uploadRoutes = require("./routes/uploadRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 
 // Middleware API
 
 app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
-
-// app.use("/api/upload", uploadRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);

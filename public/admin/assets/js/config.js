@@ -1,0 +1,1 @@
+const API = "https://khaki-cod-366220.hostingersite.com/api";

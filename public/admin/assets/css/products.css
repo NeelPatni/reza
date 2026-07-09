@@ -1,0 +1,86 @@
+body {
+  background: #f5f7fb;
+}
+
+.card {
+  border: none;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 25px
+    rgba(0,0,0,.08);
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  font-weight: 600;
+  color: #64748b;
+  padding: 18px;
+}
+
+.table td {
+  padding: 18px;
+  vertical-align: middle;
+}
+
+.product-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.btn-info,
+.btn-warning,
+.btn-danger {
+  border-radius: 10px;
+}
+
+.badge {
+  padding: 8px 15px;
+  font-size: 13px;
+}
+
+.card {
+  border: none;
+  border-radius: 20px;
+}
+
+.table th {
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.product-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid #eee;
+}
+
+.btn {
+  border-radius: 12px;
+}
+
+.form-control,
+.form-select,
+.input-group-text {
+  height: 48px;
+}
+
+.pagination .page-link {
+  border-radius: 10px;
+  margin: 0 5px;
+}
+
+.badge {
+  border-radius: 30px;
+}

@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<style>
+  /* ================= ROOT ================= */
+:root {
+  --sidebar-w: 260px;
+  --primary: #2563eb;
+}
+
+/* ================= BODY ================= */
+body {
+  margin: 0;
+  background: #f8fafc;
+  font-family: Inter, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: #111827;
+  color: #fff;
+  padding: 20px;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+/* Mobile hidden */
+@media (max-width: 768px) {
+  .sidebar {
+    left: -100%;
+  }
+
+  body.sidebar-open .sidebar {
+    left: 0;
+  }
+}
+
+/* ================= LOGO ================= */
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+/* ================= SIDEBAR LINKS ================= */
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  color: #d1d5db;
+  text-decoration: none;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ================= MAIN ================= */
+.main {
+  margin-left: var(--sidebar-w);
+  padding: 25px;
+  transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin-left: 0;
+    padding: 15px;
+  }
+}
+
+/* ================= TOPBAR ================= */
+.topbar {
+  background: #fff;
+  border-radius: 16px;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,.05);
+  margin-bottom: 20px;
+}
+
+/* Mobile topbar */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Hamburger button */
+.menu-btn {
+  display: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: none;
+  background: #f1f5f9;
+  cursor: pointer;
+}
+
+.menu-btn i {
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .menu-btn {
+    display: block;
+  }
+}
+
+/* ================= CARDS ================= */
+.card-box {
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.05);
+  transition: 0.3s;
+  height: 100%;
+}
+
+.card-box:hover {
+  transform: translateY(-4px);
+}
+
+.stat {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* ================= TABLE ================= */
+.table-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.05);
+  margin-top: 20px;
+}
+
+.table {
+  font-size: 14px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.badge-status {
+  background: #f59e0b;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .stat {
+    font-size: 22px;
+  }
+
+  .card-box {
+    padding: 18px;
+  }
+
+  .table {
+    font-size: 13px;
+  }
+}
+
+/* ================= OVERLAY ================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  z-index: 999;
+}
+
+body.sidebar-open .overlay {
+  display: block;
+}
+/* Topbar by default hidden */
+.topbar {
+  display: none;
+}
+
+/* Sirf mobile me show */
+@media (max-width: 768px) {
+  .topbar {
+    display: flex;
+  }
+}
+/* ===== TOPBAR DEFAULT HIDE ===== */
+.topbar {
+  display: none;
+}
+
+/* ===== SIDEBAR HEADER ===== */
+.sidebar-header {
+  display: none;
+}
+
+/* ===== MOBILE VIEW ===== */
+@media (max-width: 768px) {
+
+  /* TOPBAR SHOW */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    background: #fff;
+    padding: 15px 20px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-btn {
+    border: none;
+    background: #111827;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 18px;
+  }
+
+  /* SIDEBAR MOBILE STYLE */
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: #111827;
+    transition: 0.3s;
+    z-index: 2000;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  /* SHOW HEADER INSIDE SIDEBAR */
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+  }
+
+  /* MAIN SHIFT */
+  .main {
+    margin-left: 0 !important;
+    padding-top: 70px;
+  }
+}
+</style>
+
+<style>
+  /* MOBILE TOPBAR FIX */
+@media (max-width: 768px) {
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    background: #fff;
+    padding: 12px 15px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .topbar h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .menu-btn {
+    background: #111827;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+  /* RIGHT SIDE ICONS FIX */
+  .topbar > div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .topbar i {
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+}
+
+</style>
+</head>
+<body>
+<!-- TOGGLE SCRIPT -->
+<script>
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+</script>
+
+<style>
+  /* SIDEBAR HEADER FIX */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  color: #fff;
+}
+
+/* TEXT FORCE SHOW */
+.sidebar-header h3 {
+  display: block !important;
+  margin: 0;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+
+  .sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    background: #111827;
+    transition: 0.3s;
+    z-index: 9999;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  /* IMPORTANT: header visible rahe */
+  .sidebar-header {
+    display: flex !important;
+  }
+}
+/* DEFAULT (DESKTOP) → HIDE */
+.close-btn {
+  display: none;
+}
+
+/* MOBILE → SHOW */
+@media (max-width: 768px) {
+  .close-btn {
+    display: block;
+  }
+}
+</style>
+
+<!-- SIDEBAR (ONLY ONE) -->
+<div class="sidebar" id="sidebar">
+
+  <div class="sidebar-header">
+    <h3>Admin</h3>
+    <button class="close-btn" onclick="toggleSidebar()">✕</button>
+  </div>
+
+  <br>
+
+  <a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+  <a href="categories.html"><i class="fas fa-layer-group"></i> Categories</a>
+  <a href="products.html"><i class="fas fa-box"></i> Products</a>
+  <a href="orders.html"><i class="fas fa-cart-shopping"></i> Orders</a>
+  <a href="#"><i class="fas fa-users"></i> Users</a>
+  <a href="#"><i class="fas fa-gear"></i> Settings</a>
+  <a href="#" onclick="logout()">
+    <i class="fas fa-right-from-bracket"></i> Logout
+  </a>
+
+</div>
+
+
+
+
+<!-- TOPBAR (ONLY MOBILE) -->
+<div class="topbar">
+  <h4>Dashboard</h4>
+
+  <button class="menu-btn" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+</div>
+
+<style>
+  /* HIDE DESKTOP */
+.topbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .topbar {
+    display: flex !important;
+    flex-direction: row !important; /* 🔥 fix */
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    background: #fff;
+    padding: 12px 16px;
+  }
+
+  .topbar h4 {
+    margin: 0;
+  }
+
+  .menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+</style>
+
+<div class="main">
+
+<!-- DESKTOP TOPBAR -->
+<div class="topbar-desktop">
+  <h4>Dashboard</h4>
+  <div>
+    <i class="fas fa-bell me-3"></i>
+    <i class="fas fa-user-circle"></i>
+  </div>
+</div>
+
+<!-- MOBILE TOPBAR -->
+<div class="topbar-mobile">
+  <h4>Dashboard</h4>
+  <button class="menu-btn" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+</div>
+
+<style>
+  /* ===== DESKTOP ===== */
+.topbar-desktop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: #fff;
+  padding: 15px 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* MOBILE ME HIDE */
+@media (max-width: 768px) {
+  .topbar-desktop {
+    display: none;
+  }
+}
+
+
+/* ===== MOBILE ===== */
+.topbar-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .topbar-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    background: #fff;
+    padding: 12px 16px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+
+  .menu-btn {
+    background: #111827;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 18px;
+  }
+
+  .main {
+    padding-top: 70px; /* topbar space */
+  }
+}
+</style>
+
+<br>
+
+<div class="row g-4">
+<div class="col-lg-3">
+<div class="card-box">
+<p>Total Users</p>
+<div class="stat" id="totalUsers">0</div>
+</div>
+</div>
+
+<div class="col-lg-3">
+<div class="card-box">
+<p>Total Products</p>
+<div class="stat" id="totalProducts">0</div>
+</div>
+</div>
+
+<div class="col-lg-3">
+<div class="card-box">
+<p>Total Orders</p>
+<div class="stat" id="totalOrders">0</div>
+</div>
+</div>
+
+<div class="col-lg-3">
+<div class="card-box">
+<p>Total Revenue</p>
+<div class="stat" id="totalRevenue">₹0</div>
+</div>
+</div>
+</div>
+
+<div class="table-card">
+<h5 class="mb-4">Recent Orders</h5>
+
+<table class="table align-middle">
+<thead>
+<tr>
+<th>Order ID</th>
+<th>Customer</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="recentOrders">
+<tr>
+<td colspan="4">Loading...</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="table-card mt-4">
+ <div style="display: flex; justify-content: space-between; align-items: center;">
+  
+  <h5 class="mb-0">
+    Products Management
+  </h5>
+
+  <a
+    href="add-product.html"
+    class="btn btn-primary"
+  >
+    <i class="fas fa-plus me-2"></i>
+    Add New Product
+  </a>
+
+</div>
+
+<br></br>
+
+  <div class="table-responsive">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Stock</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody id="productsTable">
+        <tr>
+          <td colspan="5">
+            Loading...
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+</div>
+
+</div>
+
+<script>
+function toggleSidebar() {
+  document.body.classList.toggle("sidebar-open");
+}
+</script>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+
+</body>
+</html>
