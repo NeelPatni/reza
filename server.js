@@ -10,16 +10,16 @@ app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI);
 
-console.log("Loading authRoutes...");
+console.log("Loading UserRoutes");
 
-const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/UserRoutes");
 
-console.log("authRoutes Loaded");
+console.log("UserRoutes Loaded");
 
-app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Step 4");
+  res.send("Step 5");
 });
 
 const PORT = process.env.PORT || 3000;
