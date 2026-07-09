@@ -10,20 +10,20 @@ app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI);
 
-console.log("Loading productRoutes");
+console.log("Loading categoryRoutes");
 
-const productRoutes = require("./routes/productRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 
-console.log("productRoutes Loaded");
+console.log("categoryRoutes Loaded");
 
-app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Step 6");
+  res.send("Step 7");
 });
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("STEP 6 SUCCESS");
+  console.log("STEP 7 SUCCESS");
 });
