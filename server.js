@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
+const fs = require("fs"); // ✅ UPDATED: Added for checking HTML file existence
 const dns = require("dns");
 
 dotenv.config();
@@ -64,15 +65,34 @@ app.get("/", (req, res) => {
 });
 
 // ======================
-// Handle HTML Pages
+// ✅ UPDATED: Redirect .html URLs to clean URLs
+// Example:
+// /about.html  -> /about
+// /index.html  -> /index
+// ======================
+app.get("/:page.html", (req, res) => {
+  return res.redirect(301, `/${req.params.page}`);
+});
+
+// ======================
+// ✅ UPDATED: Handle Clean URLs
+// Example:
+// /about   -> about.html
+// /contact -> contact.html
+// /index   -> index.html
 // ======================
 app.get("/:page", (req, res, next) => {
-  const file = path.join(__dirname, "public", req.params.page);
+  const page = req.params.page;
 
-  if (file.endsWith(".html")) {
-    return res.sendFile(file, (err) => {
-      if (err) next();
-    });
+  // Skip API requests
+  if (page === "api") {
+    return next();
+  }
+
+  const filePath = path.join(__dirname, "public", `${page}.html`);
+
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
   }
 
   next();
@@ -82,7 +102,7 @@ app.get("/:page", (req, res, next) => {
 // 404 Page
 // ======================
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
+  res.status(404).sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // ======================
