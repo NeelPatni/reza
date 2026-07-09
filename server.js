@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
-const fs = require("fs"); // ✅ UPDATED: Added for checking HTML file existence
+const fs = require("fs");
 const dns = require("dns");
 
 dotenv.config();
@@ -25,12 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 // ======================
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("✅ MongoDB Connected");
-  })
-  .catch((err) => {
-    console.log("❌ MongoDB Connection Error:", err);
-  });
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.log("❌ MongoDB Connection Error:", err));
 
 // ======================
 // API Routes
@@ -52,39 +48,44 @@ app.use("/api/users", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
 // ======================
-// Static Files
+// Upload Folder
 // ======================
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(express.static(path.join(__dirname, "public")));
 
 // ======================
-// Frontend Routes
+// Redirect .html -> clean URL
+// ======================
+app.use((req, res, next) => {
+  if (req.path.endsWith(".html")) {
+    return res.redirect(301, req.path.replace(/\.html$/, ""));
+  }
+  next();
+});
+
+// ======================
+// Static Files
+// ======================
+app.use(
+  express.static(path.join(__dirname, "public"), {
+    extensions: ["html"],
+    index: false,
+  })
+);
+
+// ======================
+// Home Route
 // ======================
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // ======================
-// ✅ UPDATED: Redirect .html URLs to clean URLs
-// Example:
-// /about.html  -> /about
-// /index.html  -> /index
-// ======================
-app.get("/:page.html", (req, res) => {
-  return res.redirect(301, `/${req.params.page}`);
-});
-
-// ======================
-// ✅ UPDATED: Handle Clean URLs
-// Example:
-// /about   -> about.html
-// /contact -> contact.html
-// /index   -> index.html
+// Dynamic HTML Pages
 // ======================
 app.get("/:page", (req, res, next) => {
   const page = req.params.page;
 
-  // Skip API requests
+  // Ignore API
   if (page === "api") {
     return next();
   }
@@ -99,7 +100,7 @@ app.get("/:page", (req, res, next) => {
 });
 
 // ======================
-// 404 Page
+// 404
 // ======================
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "public", "index.html"));
